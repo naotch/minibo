@@ -2,7 +2,10 @@ package service
 
 import (
 	"errors"
+	"os"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/naotch/minibo/api/internal/model"
 	"github.com/naotch/minibo/api/pkg/logger"
 	"golang.org/x/crypto/bcrypt"
@@ -60,5 +63,26 @@ func (s *AuthService) Signin(email string, password string) (string, error) {
 		logger.Error("Invalid email or password", err)
 		return "", errors.New("invalid email or password")
 	}
-	return "dummy-token", nil
+
+	token, err := createToken(user.ID, user.Email)
+	if err != nil {
+		logger.Error("Failed to create token", err)
+		return "", err
+	}
+	return token, nil
+}
+
+func createToken(userID uint, email string) (string, error) {
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":   userID,
+		"email": email,
+		"exp":   time.Now().Add(time.Hour).Unix(),
+	})
+
+	tokenStr, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
+	if err != nil {
+		return "", err
+	}
+	return tokenStr, nil
 }
