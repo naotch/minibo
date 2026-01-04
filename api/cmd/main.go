@@ -15,5 +15,6 @@ func main() {
 	router := gin.Default()
 	auth := router.Group("/auth")
 	auth.POST("/signup", auth_handler.Signup)
+	auth.POST("/signin", auth_handler.Signin)
 	router.Run()
 }

@@ -19,3 +19,11 @@ func (r *AuthRepository) CreateUser(user *model.User) error {
 	}
 	return nil
 }
+
+func (r *AuthRepository) FindByEmail(email string) (*model.User, error) {
+	var user model.User
+	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
