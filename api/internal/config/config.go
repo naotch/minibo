@@ -20,9 +20,9 @@ func init() {
 		Env:    getEnv("APP_ENV", "dev"),
 		DBHost: getEnv("DB_HOST", "0.0.0.0"),
 		DBPort: getEnv("DB_PORT", "5432"),
-		DBName: getEnv("DB_NAME", "postgres"),
-		DBUser: getEnv("DB_USER", "postgres"),
-		DBPass: getEnv("DB_PASS", "postgres"),
+		DBName: getEnv("DB_NAME", "minibo"),
+		DBUser: getEnv("DB_USER", "minibo"),
+		DBPass: getEnv("DB_PASS", "minibo"),
 	}
 }
 

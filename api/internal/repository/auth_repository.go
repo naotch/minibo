@@ -13,10 +13,9 @@ func NewAuthRepository(db *gorm.DB) *AuthRepository {
 	return &AuthRepository{db: db}
 }
 
-func (r *AuthRepository) CreateUser(user model.User) error {
-	result := r.db.Create(&user)
-	if result.Error != nil {
-		return result.Error
+func (r *AuthRepository) CreateUser(user *model.User) error {
+	if err := r.db.Create(user).Error; err != nil {
+		return err
 	}
 	return nil
 }
