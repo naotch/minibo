@@ -2,22 +2,24 @@
   import { postApi } from "../service/api";
   import { auth } from "../stores/store.svelte";
 
-  let username = $state("");
+  let email = $state("");
   let password = $state("");
 
   async function signup() {
     try {
       const response = await postApi({
-        path: "/signup",
-        data: { username, password },
+        path: "/auth/signup",
+        data: { email, password },
       });
+      auth.token = response.token;
     } catch (error) {}
   }
+
   async function signin() {
     try {
       const response = await postApi({
-        path: "/signin",
-        data: { username, password },
+        path: "/auth/signin",
+        data: { email, password },
       });
       auth.token = response.token;
     } catch (error) {}
@@ -25,7 +27,7 @@
 </script>
 
 <article>
-  <input type="text" bind:value={username} />
+  <input type="email" bind:value={email} />
   <input type="password" bind:value={password} />
   <div class="grid">
     <button class="outline" onclick={signup}>Sign Up</button>

@@ -34,9 +34,12 @@ func TestAuthService(t *testing.T) {
 	password := "password123"
 
 	t.Run("Signup", func(t *testing.T) {
-		err := service.Signup(email, password)
+		token, err := service.Signup(email, password)
 		if err != nil {
 			t.Errorf("Signup failed: %v", err)
+		}
+		if token == "" {
+			t.Error("Token should not be empty")
 		}
 	})
 
