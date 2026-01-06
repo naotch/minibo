@@ -7,7 +7,7 @@ import (
 )
 
 type IAuthService interface {
-	Signup(email string, password string) error
+	Signup(email string, password string) (string, error)
 	Signin(email string, password string) (string, error)
 }
 
@@ -32,12 +32,12 @@ func (h *AuthHandler) Signup(c *gin.Context) {
 		return
 	}
 
-	err := h.service.Signup(request.Email, request.Password)
+	token, err := h.service.Signup(request.Email, request.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.Status(http.StatusCreated)
+	c.JSON(http.StatusCreated, gin.H{"token": token})
 }
 
 func (h *AuthHandler) Signin(c *gin.Context) {

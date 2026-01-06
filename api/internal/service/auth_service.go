@@ -25,12 +25,12 @@ func NewAuthService(repository IAuthRepository) *AuthService {
 	return &AuthService{repository: repository}
 }
 
-func (s *AuthService) Signup(email string, password string) error {
+func (s *AuthService) Signup(email string, password string) (string, error) {
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		logger.Error("Failed to hash password", err)
-		return err
+		return "", err
 	}
 
 	user := model.User{
@@ -41,10 +41,16 @@ func (s *AuthService) Signup(email string, password string) error {
 	err = s.repository.CreateUser(&user)
 	if err != nil {
 		logger.Error("Failed to create user", err)
-		return err
+		return "", err
 	}
 
-	return nil
+	token, err := createToken(user.ID, user.Email)
+	if err != nil {
+		logger.Error("Failed to create token", err)
+		return "", err
+	}
+
+	return token, nil
 }
 
 func (s *AuthService) Signin(email string, password string) (string, error) {
