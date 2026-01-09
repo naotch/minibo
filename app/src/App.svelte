@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AuthForm from "./components/auth/SignupForm.svelte";
+  import AuthForm from "./features/auth/SignupForm.svelte";
   import { auth } from "./stores/store.svelte";
 </script>
 
