@@ -1,9 +1,14 @@
 <script lang="ts">
-  import AuthForm from "./features/auth/SignupForm.svelte";
-  import { auth } from "./stores/store.svelte";
+  import AuthForm from "./features/auth/AuthForm.svelte";
+  import Modal from "./features/common/Modal.svelte";
+  import { auth, modal } from "./stores/store.svelte";
 </script>
 
 <main class="container">
+  {#if modal.message}
+    <Modal onclick={() => (modal.message = "")} />
+  {/if}
+
   {#if !auth.token}
     <AuthForm />
   {:else}
