@@ -4,7 +4,7 @@ import { auth, modal } from "../../stores/store.svelte";
 export async function record(title: string, category: number, amount: number) {
   try {
     await postApi({
-      path: "/transaction",
+      path: "/transactions",
       data: { title, category, amount },
       token: auth.token
     })

@@ -1,6 +1,7 @@
 <script lang="ts">
   import Header from "./features/shared/Header.svelte";
   import AuthForm from "./features/auth/AuthForm.svelte";
+  import Total from "./features/report/Total.svelte";
   import RecordForm from "./features/transaction/RecordForm.svelte";
   import Modal from "./features/shared/Modal.svelte";
   import { auth, modal } from "./stores/store.svelte";
@@ -16,6 +17,7 @@
   {#if !auth.token}
     <AuthForm />
   {:else}
+    <Total />
     <RecordForm />
   {/if}
 </main>
