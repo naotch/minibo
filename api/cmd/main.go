@@ -28,8 +28,8 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	router.Use(middlewares.AccessTraceMiddleware())
 
+	router.Use(middlewares.AccessTraceMiddleware())
 	api := router.Group("/api")
 
 	auth := api.Group("/auth")
@@ -37,7 +37,7 @@ func main() {
 	auth.POST("/signin", auth_handler.Signin)
 
 	transaction := api.Group("transaction")
-	transaction.Use(middlewares.AccessTraceMiddleware())
+	transaction.Use(middlewares.AuthMiddleware())
 	transaction.POST("", transaction_handler.Record)
 	router.Run()
 }

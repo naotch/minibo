@@ -10,8 +10,10 @@
 {/snippet}
 
 <article>
-  <input type="email" bind:value={email} />
-  <input type="password" bind:value={password} />
+  <label for="email">メールアドレス</label>
+  <input type="email" id="email" bind:value={email} />
+  <label for="password">パスワード</label>
+  <input type="password" id="password" bind:value={password} />
   <div class="grid">
     {@render button("新規作成", "outline", () => signup(email, password))}
     {@render button("サインイン", "primary", () => signin(email, password))}
