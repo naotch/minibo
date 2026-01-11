@@ -19,3 +19,12 @@ func (r *TransactionRepository) CreateTransaction(transaction *model.Transaction
 	}
 	return nil
 }
+
+func (r *TransactionRepository) SummrizeTotal(userID uint) (int, error) {
+	var total int
+	err := r.db.Model(&model.Transaction{}).
+		Where("user_id = ?", userID).
+		Select("SUM(CASE WHEN category = 1 THEN amount ELSE -amount END)").
+		Scan(&total).Error
+	return total, err
+}

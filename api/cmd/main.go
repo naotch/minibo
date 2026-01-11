@@ -18,6 +18,9 @@ func main() {
 	transaction_repository := repository.NewTransactionRepository(repository.DB)
 	transaction_service := service.NewTransactionService(transaction_repository)
 	transaction_handler := handler.NewTransactionHandler(transaction_service)
+	report_repository := repository.NewReportRepository(repository.DB)
+	report_service := service.NewReportService(report_repository)
+	report_handler := handler.NewReportHandler(report_service)
 
 	router := gin.Default()
 
@@ -36,8 +39,12 @@ func main() {
 	auth.POST("/signup", auth_handler.Signup)
 	auth.POST("/signin", auth_handler.Signin)
 
-	transaction := api.Group("transaction")
+	transaction := api.Group("/transactions")
 	transaction.Use(middlewares.AuthMiddleware())
 	transaction.POST("", transaction_handler.Record)
+
+	report := api.Group("/reports")
+	report.Use(middlewares.AuthMiddleware())
+	report.GET("/total", report_handler.ReportTotal)
 	router.Run()
 }
