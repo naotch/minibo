@@ -14,7 +14,7 @@ var DB *gorm.DB
 
 func init() {
 	DB = newSQLFactory()
-	err := DB.AutoMigrate(&model.User{})
+	err := DB.AutoMigrate(&model.User{}, &model.Transaction{})
 	if err != nil {
 		logger.Panic("Database migration failed", err)
 	}
