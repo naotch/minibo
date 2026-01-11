@@ -6,6 +6,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/naotch/minibo/api/internal/handler"
+	"github.com/naotch/minibo/api/internal/middlewares"
 	"github.com/naotch/minibo/api/internal/repository"
 	"github.com/naotch/minibo/api/internal/service"
 )
@@ -24,6 +25,7 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+	router.Use(middlewares.AccessTraceMiddleware())
 
 	api := router.Group("/api")
 	auth := api.Group("/auth")
